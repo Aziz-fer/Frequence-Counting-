@@ -13,7 +13,6 @@ public class freqcounter {
         }
         return min;
     }
-
     public static int getMax(int[] data) {
         int max = data[0];
         for (int j : data) {
@@ -22,10 +21,20 @@ public class freqcounter {
         }
         return max;
     }
-
+    public static boolean check(int[] arr, int toCheckValue)
+    {
+        boolean test = false;
+        for (int element : arr) {
+            if (element == toCheckValue) {
+                test = true;
+                break;
+            }
+        }
+        return test;
+    }
     public static int[] count(int[] data, int min, int max) {
         Map<Integer, Integer> hmap = new HashMap<>();
-
+        int[] values = new int[getMax(data) - getMin(data) + 1];
         for (int i = 0; i < data.length; i++) {
             if (hmap.containsKey(data[i])) {
                 hmap.put(data[i], hmap.get(data[i]) + 1);
@@ -33,22 +42,29 @@ public class freqcounter {
                 hmap.put(data[i], 1);
             }
         }
-       /* for (Map.Entry<Integer, Integer> entry : mp.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-          }
-        int[] keys = new int[mp.size()]; */
-        int[] values = new int[hmap.size()];
+        int[] keys = new int[hmap.size()];
         int k = 0;
         for (Map.Entry<Integer, Integer> mapEntry : hmap.entrySet()) {
-            // keys[index] = mapEntry.getKey();
+            keys[k] = mapEntry.getKey();
             values[k] = mapEntry.getValue();
             k++;
         }
-        return values;
-    }
+        for (int i = getMin(data); i <= getMax(data); i++) {
+            int y = i-getMin(data) ;
+            if (!check(data, i)) {
+                int tmp = values[y] ;
+                values[y]= 0 ;
+            }
+            else { values[y] = hmap.get(i) ;
+            }
+        }
+            return values;
+        }
+
 
     public static void main(String args[]) {
-        // int arr[] = {1,2,3,4,5,6,7,1,2,3,4};
+         // int arr[] = {1,2,3,4,5,6,7,1,2,3,4};
+        // int arr[] = {1,3,3,5,8,8,9,9,9,9,9,15,20,21,26,28,28};
         Scanner input = new Scanner(System.in);
         ArrayList data = new ArrayList<Integer>();
         try {
@@ -67,7 +83,7 @@ public class freqcounter {
           } catch (NumberFormatException e) {
 
             System.out.println("Something went wrong");
-        }
+         }
 
     }
 }
